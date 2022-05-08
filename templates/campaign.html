@@ -1,0 +1,113 @@
+{% extends "base.html" %} {% block title %}DeepThank | Snippets{%endblock%}
+{%block content%}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active disabled" href="/campaign">Online snippets</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/campaign/email">Automated emails</a>
+    </li>
+</ul>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <span class="badge bg-primary" draggable="true" ondragstart="dragStartHandler(event)">LAST_CUSTOMER_NAME</span>
+            <span class="badge bg-primary" draggable="true" ondragstart="dragStartHandler(event)">LAST_CUSTOMER_ITEM</span>
+            <span class="badge bg-primary" draggable="true" ondragstart="dragStartHandler(event)">LAST_CUSTOMER_CITY</span>
+            <span class="badge bg-primary" draggable="true" ondragstart="dragStartHandler(event)">NUMBER_OF_PURCHASES</span>
+            <br><br>
+            <div class="container">
+                <form method="POST" action="/campaign/upload" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="site_id">Choose a site</label>
+                        <select class="form-select" id="site_id" name="site_id" aria-label="Default select example">
+                            <option selected>Open this menu</option>
+                            {{site_id|safe}}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="speech_model">Choose a voice model</label>
+                        <select class="form-select" id="speech_model" name="speech_model" aria-label="Default select example">
+                            <option selected>Open this menu</option>
+                            <option value="Dorsey-1952">Jack Dorsey</option>
+                            <option value="Obama-1463">Barack Obama</option>
+                            <option value="Applejacks-10000">US Southern(beta)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="speech_text">Texts you want to say</label>
+                        <textarea class="form-control" id="speech_text" name="speech_text" placeholder="Please enter some texts" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" style="height: 100px;"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="speech_video">Upload your Photo/Video</label>
+                        <input class="form-control" type="file" id="speech_video" name="speech_video">
+                    </div>
+                    <button type="submit" class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M7.646 5.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2z"/>
+                        <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
+                        </svg> Upload </button>
+                </form>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+
+
+            <div class="container">
+                <div class="card" style="width: 400px;">
+                    {% if filename %}
+                    <iframe src="{{ filename }}" style="width: 400px;height: 200px;object-fit:contain;"></iframe>
+                    {% else %}
+                    <img src="https://storage.googleapis.com/memekit/image.png" style="width: 400px;height: 200px;object-fit:contain;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h4 class="card-title">Preview</h4>
+                        <p class="card-text">Follow these instructions for best results:</p>
+                        <p class="card-text">
+                            <ul>
+                                <li>
+                                    Write plain understandable English texts which have under 1 minute of speech.
+                                </li>
+                                <li>
+                                    Upload photos or videos with recognizable faces and the faces must not be too near camera.
+                                </li>
+                                <li>
+                                    Do not use punctuation "." in the middle of the text. Only use "." when you finish the text.
+                                </li>
+                                <li>
+                                    Use "..." as punctuation between sentences instead and begin sentences with capital letters.
+                                </li>
+                            </ul>
+                        </p>
+                        <div class="container">
+                        <div class="row">
+                            {% if enable_helper_buttons %}
+                            <div class="col" style="text-align: center;"><a href="{{ url_for('campaign.submitted_snippet') }}" class="btn btn-dark">Submit snippet</a></div>
+                            <div class="col" style="text-align: center;"><a href="{{ url_for('campaign.retry') }}" class="btn btn-outline-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/>
+                              </svg> Retry </a></div>
+                            {% else %} 
+                            <div class="col" style="text-align: center;"><a href="{{ url_for('campaign.submitted_snippet') }}" class="btn btn-dark disabled">Submit snippet</a></div>
+                            <div class="col" style="text-align: center;"><a href="{{ url_for('campaign.retry') }}" class="btn btn-outline-dark disabled" disabled><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/>
+                              </svg> Retry </a></div>
+                            {% endif %} 
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+
+
+

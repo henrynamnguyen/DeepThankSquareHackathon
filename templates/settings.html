@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}DeepThank | Snippets{%endblock%}
+{%block content%}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active disabled" href="/campaign">Online snippets</a>
+    </li>
+</ul>
+<br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="container">
+        <form method="POST" action="/settings/upload" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="site_id">Choose a site</label>
+            <select class="form-select" id="site_id" name="site_id" aria-label="Default select example">
+                <option selected>Open this menu</option>
+                {{site_id|safe}}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-dark"> Delete snippet </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
