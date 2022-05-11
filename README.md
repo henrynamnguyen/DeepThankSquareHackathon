@@ -1,5 +1,7 @@
 # DeepThankSquareHackathon
-Submission for Square Unboxed Hackathon 2021: https://devpost.com/software/deepthank
+Submission for Square Unboxed Hackathon 2021: 
+Short Demo https://devpost.com/software/deepthank
+Long Demo https://www.youtube.com/watch?v=JV8-llZgfUs
 
 # Inspiration
 Customer impression is an important part of any businesses. Independent shops have longed for a way to create a good impression on customers and make customers remember where they buy from. Better impressions from customers will lead to better rate of customer acquisitions. DeepThank presents a solution to this by combining real-time personalization powered by AI and Square API with memes and some creative humour from shop owners!
